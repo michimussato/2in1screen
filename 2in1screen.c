@@ -6,14 +6,26 @@
 #include <string.h>
 
 #define DATA_SIZE 256
-#define N_STATE 2
+#define N_STATE 4
 char basedir[DATA_SIZE];
 char *basedir_end = NULL;
 char content[DATA_SIZE];
 char command[DATA_SIZE*4];
 
-char *ROT[]   = {"normal", 				"inverted", 			"left", 				"right"};
-char *COOR[]  = {"1 0 0 0 1 0 0 0 1",	"-1 0 1 0 -1 1 0 0 1", 	"0 -1 1 1 0 0 0 0 1", 	"0 1 0 -1 0 1 0 0 1"};
+char *ROT[] =
+  {
+    "normal",
+    "inverted",
+    "right",
+    "left"
+  };
+char *COOR[]  =
+  {
+    "1 0 0 0 1 0 0 0 1",
+    "-1 0 1 0 -1 1 0 0 1",
+    "0 1 0 -1 0 1 0 0 1",
+    "0 -1 1 1 0 0 0 0 1"
+  };
 // char *TOUCH[] = {"enable", 				"disable", 				"disable", 				"disable"};
 
 double accel_y = 0.0,
@@ -27,6 +39,7 @@ int current_state = 0;
 int rotation_changed(){
 	int state = 0;
 
+  fprintf(stdout, "%i < %i\n", accel_y, -accel_g);
 	if(accel_y < -accel_g) state = 0;
 	else if(accel_y > accel_g) state = 1;
 #if N_STATE == 4
@@ -58,7 +71,7 @@ FILE* bdopen(char const *fname, char leave_open){
 void rotate_screen(){
 	sprintf(command, "xrandr -o %s", ROT[current_state]);
 	system(command);
-	sprintf(command, "xinput set-prop \"%s\" \"Coordinate Transformation Matrix\" %s", "Wacom HID 4846 Finger", COOR[current_state]);
+	sprintf(command, "xinput set-prop \"%s\" \"Coordinate Transformation Matrix\" %s", "GXTP7380:00 27C6:0113", COOR[current_state]);
 	system(command);
 }
 

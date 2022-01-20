@@ -26,25 +26,41 @@ char *COOR[]  =
     "0 1 0 -1 0 1 0 0 1",
     "0 -1 1 1 0 0 0 0 1"
   };
-// char *TOUCH[] = {"enable", 				"disable", 				"disable", 				"disable"};
 
 double accel_y = 0.0,
 #if N_STATE == 4
 	   accel_x = 0.0,
 #endif
-	   accel_g = 7.0;
+	   accel_gx = 2.0;
+	   accel_gy = 6.0;
 
 int current_state = 0;
 
 int rotation_changed(){
 	int state = 0;
 
-  fprintf(stdout, "%i < %i\n", accel_y, -accel_g);
-	if(accel_y < -accel_g) state = 0;
-	else if(accel_y > accel_g) state = 1;
+  fprintf(stdout, "x %f ", accel_x);
+  fprintf(stdout, "gx %f ", accel_gx);
+  fprintf(stdout, "y %f ", accel_y);
+  fprintf(stdout, "gy %f ", accel_gy);
+	if(accel_y < -accel_gy)
+  {
+    state = 0;
+  }
+	else if(accel_y > accel_gy)
+  {
+    state = 1;
+  }
 #if N_STATE == 4
-	else if(accel_x > accel_g) state = 2;
-	else if(accel_x < -accel_g) state = 3;
+	else if(accel_x > accel_gx)
+  {
+    state = 2;
+  }
+	else if(accel_x < -accel_gx)
+  {
+    state = 3;
+  }
+  fprintf(stdout, "state %i\n", state);
 #endif
 
 	if(current_state!=state){
@@ -71,7 +87,9 @@ FILE* bdopen(char const *fname, char leave_open){
 void rotate_screen(){
 	sprintf(command, "xrandr -o %s", ROT[current_state]);
 	system(command);
-	sprintf(command, "xinput set-prop \"%s\" \"Coordinate Transformation Matrix\" %s", "GXTP7380:00 27C6:0113", COOR[current_state]);
+  sprintf(command, "xinput set-prop \"%s\" \"Coordinate Transformation Matrix\" %s", "GXTP7380:00 27C6:0113", COOR[current_state]);
+	system(command);
+  sprintf(command, "xinput set-prop \"%s\" \"Coordinate Transformation Matrix\" %s", "GXTP7380:00 27C6:0113 Stylus Pen (0)", COOR[current_state]);
 	system(command);
 }
 

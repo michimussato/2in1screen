@@ -85,11 +85,13 @@ FILE* bdopen(char const *fname, char leave_open){
 }
 
 void rotate_screen(){
-	sprintf(command, "xrandr -o %s", ROT[current_state]);
+	sprintf(command, "xrandr --output DSI1 --rotate %s", ROT[current_state]);
 	system(command);
-  sprintf(command, "xinput set-prop \"%s\" \"Coordinate Transformation Matrix\" %s", "GXTP7380:00 27C6:0113", COOR[current_state]);
+  sprintf(command, "xinput set-prop \"%s\" \"Coordinate Transformation Matrix\" %s", "GXTP7380:00 27C6:0113 touch", COOR[current_state]);
 	system(command);
-  sprintf(command, "xinput set-prop \"%s\" \"Coordinate Transformation Matrix\" %s", "GXTP7380:00 27C6:0113 Stylus Pen (0)", COOR[current_state]);
+  sprintf(command, "xinput set-prop \"%s\" \"Coordinate Transformation Matrix\" %s", "GXTP7380:00 27C6:0113 Stylus stylus", COOR[current_state]);
+	system(command);
+  sprintf(command, "xinput set-prop \"%s\" \"Coordinate Transformation Matrix\" %s", "GXTP7380:00 27C6:0113 Stylus eraser", COOR[current_state]);
 	system(command);
 }
 

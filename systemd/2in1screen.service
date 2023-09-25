@@ -1,0 +1,17 @@
+[Unit]
+# https://askubuntu.com/questions/175611/cannot-connect-to-x-server-when-running-app-with-sudo
+Description=2in1screen Service
+Documentation=https://github.com/akissu/2in1screen
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+User=michael
+Group=michael
+ExecStart=/usr/bin/2in1screen
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
+

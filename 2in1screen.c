@@ -1,18 +1,9 @@
-// mkdir -p ./bin && gcc -O2 -o ./bin/2in1screen 2in1screen.c && sudo mv ./bin/2in1screen /usr/bin/
-
 /*
-Installation:
-
-su root
-
-cp ./2in1screen /usr/bin/
-chown root:root /usr/bin/2in1screen
-chmod 0755 /usr/bin/2in1screen
-
-cp ./map_touch /usr/bin/
-chown root:root /usr/bin/map_touch
-chmod 0755 /usr/bin/map_touch
-
+mkdir -p ./bin \
+&& gcc -O2 -o ./bin/2in1screen 2in1screen.c \
+&& chown root:root ./bin/2in1screen \
+&& chmod 0755 ./bin/2in1screen \
+&& sudo mv ./bin/2in1screen /usr/bin/
 */
 
 
